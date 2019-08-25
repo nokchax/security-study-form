@@ -8,6 +8,12 @@ import java.security.Principal;
 
 @Controller
 public class SampleController {
+    private SampleService sampleService;
+
+    public SampleController(SampleService sampleService) {
+        this.sampleService = sampleService;
+    }
+
     @GetMapping("/")
     public String index(Model model, Principal principal) {
         if(principal == null) {
@@ -28,6 +34,7 @@ public class SampleController {
     public String dashboard(Model model, Principal principal) {
         //로그인 하지 않았을 때는 principal 객체는 null이 들어간
         model.addAttribute("message", "Hello " + principal.getName());
+        sampleService.dashboard();
 
         return "index";
     }
