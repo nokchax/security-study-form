@@ -1,5 +1,8 @@
 package com.study.security.demospringsecurityform.form;
 
+import com.study.security.demospringsecurityform.account.Account;
+import com.study.security.demospringsecurityform.account.AccountContext;
+import com.study.security.demospringsecurityform.account.AccountRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,9 +12,11 @@ import java.security.Principal;
 @Controller
 public class SampleController {
     private SampleService sampleService;
+    private AccountRepository accountRepository;
 
-    public SampleController(SampleService sampleService) {
+    public SampleController(SampleService sampleService, AccountRepository accountRepository) {
         this.sampleService = sampleService;
+        this.accountRepository = accountRepository;
     }
 
     @GetMapping("/")
@@ -34,6 +39,8 @@ public class SampleController {
     public String dashboard(Model model, Principal principal) {
         //로그인 하지 않았을 때는 principal 객체는 null이 들어간
         model.addAttribute("message", "Hello " + principal.getName());
+        Account account = accountRepository.findByUsername(principal.getName());
+        AccountContext.setAccount(account);
         sampleService.dashboard();
 
         return "index";
