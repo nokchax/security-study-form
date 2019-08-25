@@ -1,5 +1,6 @@
 package com.study.security.demospringsecurityform.config;
 
+import com.study.security.demospringsecurityform.account.AccountService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,10 +10,16 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private AccountService accountService;
+
+    public SecurityConfig(AccountService accountService) {
+        this.accountService = accountService;
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .mvcMatchers("/", "/info").permitAll()
+                .mvcMatchers("/", "/info", "/account/**").permitAll()
                 .mvcMatchers("/admin").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
@@ -23,11 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("nokcha").password("{noop}123").roles("USER")
-                .and()
-                .withUser("admin").password("{noop}!@#").roles("ADMIN");
-        //{noop} 암호화를 하지 않음 no op
-        //{} 내부에는 인코더를 선언하는 것
+        auth.userDetailsService(accountService);
+        //명시적으로 추가를 안해도 빈으로 등록만 되어 있다면 자동으로 맵핑된다.
     }
 }
