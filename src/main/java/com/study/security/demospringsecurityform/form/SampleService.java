@@ -1,7 +1,5 @@
 package com.study.security.demospringsecurityform.form;
 
-import com.study.security.demospringsecurityform.account.Account;
-import com.study.security.demospringsecurityform.account.AccountContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,7 +10,6 @@ import java.util.Collection;
 @Service
 public class SampleService {
     public void dashboard() {
-        Account account = AccountContext.getAccount();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         //인증한 사용자의 정보
         Object principal = authentication.getPrincipal();
