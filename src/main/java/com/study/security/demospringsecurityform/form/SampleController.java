@@ -10,11 +10,9 @@ import java.security.Principal;
 @Controller
 public class SampleController {
     private SampleService sampleService;
-    private AccountRepository accountRepository;
 
-    public SampleController(SampleService sampleService, AccountRepository accountRepository) {
+    public SampleController(SampleService sampleService) {
         this.sampleService = sampleService;
-        this.accountRepository = accountRepository;
     }
 
     @GetMapping("/")
