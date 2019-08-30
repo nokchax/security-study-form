@@ -1,11 +1,15 @@
 package com.study.security.demospringsecurityform.form;
 
 import com.study.security.demospringsecurityform.account.AccountRepository;
+import com.study.security.demospringsecurityform.common.SecurityLogger;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
+import java.util.concurrent.Callable;
 
 @Controller
 public class SampleController {
@@ -51,5 +55,23 @@ public class SampleController {
         model.addAttribute("message", "Hello User " + principal.getName());
 
         return "user";
+    }
+
+    @GetMapping("/async-handler")
+    @ResponseBody
+    public Callable<String> asyncHandler() {
+        SecurityLogger.log("MVC");
+
+        return new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                SecurityLogger.log("Callable");
+                return "Async Handler";
+            }
+        };
+        /*
+         * 이렇게 리턴을 하면
+         * 이 응답을 처리하고 있던 스레드를 반환하고, 그 다음에 call()이 완료가 됐을때에 응답을 그때 보냄
+         */
     }
 }
