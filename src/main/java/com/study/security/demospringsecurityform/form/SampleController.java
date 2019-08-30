@@ -74,4 +74,14 @@ public class SampleController {
          * 이 응답을 처리하고 있던 스레드를 반환하고, 그 다음에 call()이 완료가 됐을때에 응답을 그때 보냄
          */
     }
+
+    @GetMapping("/async-service")
+    @ResponseBody
+    public String asyncService() {
+        SecurityLogger.log("MVC Before Async service");
+        sampleService.asyncService();
+        SecurityLogger.log("MVC After Async service");
+
+        return "Async Service";
+    }
 }
