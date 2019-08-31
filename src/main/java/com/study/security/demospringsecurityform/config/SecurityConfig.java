@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         //web.ignoring().mvcMatchers("/favicon.ico");
         web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
         //정적 리소스에 대해서 시큐리티 필터가 등록되는데, 필터가 없는 텅 빈 필터가 등록된다.
