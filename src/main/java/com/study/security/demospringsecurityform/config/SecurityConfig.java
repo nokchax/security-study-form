@@ -53,13 +53,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         //web.ignoring().mvcMatchers("/favicon.ico");
         web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
-        //정적 리소스에 대해서 시큐리티 필터가 등록되는데, 필터가 없는 텅 빈 필터가 등록된다.
+        //정적 리소스에 대해서 시큐리티 필터가 등록되는데, 필터 가 없는 텅 빈 필터가 등록된다.
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .mvcMatchers("/", "/info", "/account/**").permitAll()
+                .mvcMatchers("/", "/info", "/account/**", "/signup").permitAll()
                 .mvcMatchers("/admin").hasRole("ADMIN")
                 .mvcMatchers("/user").hasRole("USER")
                 //.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
@@ -68,7 +68,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .expressionHandler(expressionHandler());
         http.formLogin();
         http.httpBasic();
-        http.csrf().disable(); //disable csrf
 
         SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
     }
