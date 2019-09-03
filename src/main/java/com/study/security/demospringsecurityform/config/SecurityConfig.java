@@ -24,21 +24,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.accountService = accountService;
     }
 
-/*    public AccessDecisionManager accessDecisionManager() {
-        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-        roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_USER");
-
-        DefaultWebSecurityExpressionHandler handler = new DefaultWebSecurityExpressionHandler();
-        handler.setRoleHierarchy(roleHierarchy);
-
-        WebExpressionVoter webExpressionVoter = new WebExpressionVoter();
-        webExpressionVoter.setExpressionHandler(handler);
-
-        List<AccessDecisionVoter<? extends Object>> voters = Arrays.asList(webExpressionVoter);
-
-        return new AffirmativeBased(voters);
-    }*/
-
     public SecurityExpressionHandler expressionHandler() {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
         roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_USER");
