@@ -44,15 +44,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .mvcMatchers("/", "/info", "/account/**", "/signup").permitAll()
+                .mvcMatchers("/", "/info", "/account/**", "/signup", "/login").permitAll()
                 .mvcMatchers("/admin").hasRole("ADMIN")
                 .mvcMatchers("/user").hasRole("USER")
                 //.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .anyRequest().authenticated()
                 //.accessDecisionManager(accessDecisionManager())
                 .expressionHandler(expressionHandler());
-        http.formLogin();
+        http.formLogin()
+                .loginPage("/login") // login 으로 한다면 없어도 됨
+                .permitAll();
+
+        http.logout()
+                .logoutUrl("/logout"); // 마찬가지
         http.httpBasic();
+
 
         SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
     }
